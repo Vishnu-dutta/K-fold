@@ -49,22 +49,17 @@ scores_logistic = []
 scores_svm = []
 scores_rf = []
 
-for train_index, test_index in folds.split(digits.data, digits.target):
+for train_index, test_index in folds.split(digits.data,digits.target):
     X_train, X_test, y_train, y_test = digits.data[train_index], digits.data[test_index], \
-                                       digits.target[train_index], digits.target[train_index]
-    scores_logistic.append(get_score(LogisticRegression(solver='liblinear', multi_class='ovr'), X_train, X_test, y_train, y_test))
+                                       digits.target[train_index], digits.target[test_index]
+    scores_logistic.append(get_score(LogisticRegression(solver='liblinear',multi_class='ovr'), X_train, X_test, y_train, y_test))
     scores_svm.append(get_score(SVC(gamma='auto'), X_train, X_test, y_train, y_test))
     scores_rf.append(get_score(RandomForestClassifier(n_estimators=40), X_train, X_test, y_train, y_test))
-
-print(scores_logistic)
-print(scores_svm)
-print(scores_rf)
-
 
 '''
 Using Cross_val_score function
 '''
 
-print(cross_val_score(LogisticRegression(solver='liblinear', multi_class='ovr'), digits.data, digits.target, cv = 3))
+print(cross_val_score(LogisticRegression(solver='liblinear', multi_class='ovr'), digits.data, digits.target, cv=3))
 print(cross_val_score(SVC(gamma='auto'), digits.data, digits.target, cv=3))
-print(cross_val_score(RandomForestClassifier(n_estimators=40),digits.data, digits.target, cv = 3))
+print(cross_val_score(RandomForestClassifier(n_estimators=40), digits.data, digits.target, cv=3))
